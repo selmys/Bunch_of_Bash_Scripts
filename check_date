@@ -1,0 +1,64 @@
+#!/bin/bash
+#Author: John Selmys
+#Date: Sept 2014
+#Organization: Seneca College
+#Purpose: Validate a date
+#Usage: chkdate year month day
+#
+if [ $# -eq 0 ]; then
+	echo Usage: chkdate year month day
+	exit 0
+fi
+year=$1; month=$2; day=$3; extra=$4
+if [[ "$extra" != "" ]]; then
+	# Too much data!
+	echo Usage: chkdate year month day
+	exit 1
+fi
+if [[ "$year" == "" || "$month" == "" || "$day" == "" ]]; then
+	# Not enough data!
+	echo Usage: chkdate year month day
+	exit 2
+fi
+if [[ ! ( $year =~ ^[0-9]+$ && $month =~ ^[0-9]+$ && $day =~ ^[0-9]+$ ) ]]; then
+	# Date not numeric!
+	echo Usage: chkdate year month day
+	exit 3
+fi
+if [[ $year -lt 1 || $year -gt 9999 || $month -lt 1 || $month -gt 12 || $day -lt 1 || $day -gt 31 ]]; then
+	# Date out of range!
+	echo Usage: chkdate year month day
+	exit 4
+fi
+if [[ ( $month == 1 || $month == 3 || $month == 5 || $month == 7 || $month == 8 || $month == 10 || $month == 12 ) && $day -gt 31 ]]; then
+	# Invalid day!
+	echo Usage: chkdate year month day
+	exit 5
+fi
+if [[ ( $month == 4 || $month == 6 || $month == 9 || $month == 11 ) && $day -gt 30 ]]; then
+	# Invalid day!
+	echo Usage: chkdate year month day
+	exit 6
+fi
+if [[ $month == 2 && $(($year%100)) == 0 ]]; then
+	if [[ $(($year%400)) == 0 ]]; then
+		isLeapYear=1
+	else
+		isNotLeapYear=1
+	fi
+elif [[ $month == 2 && $(($year%4)) == 0 ]]; then
+	isLeapYear=1
+else
+	isNotLeapYear=1
+fi
+if [[ $month == 2 && $day -gt 28 && $isNotLeapYear ]]; then
+	# Not Leap year!
+	echo Usage: chkdate year month day
+	exit 7
+fi
+if [[ $month == 2 && $day -gt 29 && $isLeapYear ]]; then
+	# Invalid day!
+	echo Usage: chkdate year month day
+	exit 8
+fi
+echo $year-$month-$day is a valid date

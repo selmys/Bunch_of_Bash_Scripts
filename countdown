@@ -1,0 +1,13 @@
+#!/bin/bash
+# Countdown to launch 
+clear
+read -p "How many seconds to countdown? " seconds
+
+for i in $(seq $seconds | tac)
+do
+	echo $i
+	sleep 1
+done
+
+echo
+echo "Fire!!!!!"

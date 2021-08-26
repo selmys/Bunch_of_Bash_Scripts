@@ -1,0 +1,16 @@
+#!/bin/bash
+# check a student's age [18 to 29]
+if [ $# -ne 1 ]
+then
+	echo Please enter one age on the command line
+	exit 2
+fi
+age=$1
+re='^1[89]$|^2[0-9]$'
+echo "$age" | egrep "$re" >/dev/null
+if (( $? != 0 ))
+then
+	echo $age is invalid
+	exit 1
+fi
+echo $age is valid student age

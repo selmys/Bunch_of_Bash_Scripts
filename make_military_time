@@ -1,0 +1,14 @@
+#!/bin/bash
+# create a bunch of military times [00:00 to 23:59]
+for i in {1..1000}
+do
+	d1=$(echo 012 | cut -c$((RANDOM%3+1)))
+    case $d1 in
+        0) d2=$(echo 0123456789 | cut -c$((RANDOM%10+1))) ;;
+        1) d2=$(echo 0123456789 | cut -c$((RANDOM%10+1))) ;;
+        2) d2=$(echo 0123 | cut -c$((RAMDOM%4+1)));;
+    esac
+	d3=$(echo 012345 | cut -c$((RANDOM%5+1)))
+	d4=$(echo 0123456789 | cut -c$((RANDOM%10+1)))
+	echo $d1$d2:$d3$d4
+done

@@ -1,0 +1,19 @@
+#!/bin/bash
+# convert pounds to kilograms - 1kg = 2.2 pounds
+if [ $# -eq 1 ]
+then
+	pounds=$1
+else
+	read -p "How many pounds? " pounds
+fi
+# validate the input
+if [[ ! $pounds =~ ^\+?[0-9]+\.?[0-9]*$  ]]
+then
+	echo $pounds is invalid
+	exit 3
+fi
+# remove plus sign if there
+pounds=$(echo $pounds | tr -d '+')
+kg=$(echo "scale=2;$pounds/2.2" | bc)
+
+echo $pounds pounds is $kg kilograms

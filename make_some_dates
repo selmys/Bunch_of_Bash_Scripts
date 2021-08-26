@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# create 1000 dates that look like this dd/mm/yy
+# but does not take into account leap years
+# maybe someone could fix this?
+for i in {1..1000}
+do
+    # first get the month
+	m1=$(echo 01 | cut -c$((RANDOM%2+1)))
+    if [ $m1 -eq 1 ]; then
+	    m2=$(echo 012 | cut -c$((RANDOM%3+1)))
+    else
+        m2=$(echo 123456789 | cut -c$((RANDOM%9+1)))
+    fi
+    # next get the day of the month
+    if [ $m1 -eq 0 -a $m2 -eq 1 -o $m2 -eq 3 -o $m2 -eq 5 -o $m2 -eq 7 -o $m2 -eq 8 ]; then
+	    d1=$(echo 0123 | cut -c$((RANDOM%4+1)))
+        if [ $d1 -ne 3 ]; then
+	        d2=$(echo 123456789 | cut -c$((RANDOM%9+1)))
+        else
+            d2=$(echo 01 | cut -c$((RANDOM%2+1)))
+        fi
+    elif [ $m1 -eq 0 -a $m2 -eq 2 -o $m2 -eq 4 -o $m2 -eq 6 -o $m2 -eq 9 ]; then
+	    d1=$(echo 0123 | cut -c$((RANDOM%4+1)))
+        if [ $d1 -ne 3 ]; then
+	        d2=$(echo 123456789 | cut -c$((RANDOM%9+1)))
+        else
+            d2=0
+        fi
+    elif [ $m1 -eq 1 -a $m2 -eq 0 -o $m2 -eq 2 ]; then
+	    d1=$(echo 0123 | cut -c$((RANDOM%4+1)))
+        if [ $d1 -ne 3 ]; then
+	        d2=$(echo 123456789 | cut -c$((RANDOM%9+1)))
+        else
+            d2=$(echo 01 | cut -c$((RANDOM%2+1)))
+        fi
+    elif [ $m1 -eq 1 -a $m2 -eq 1 ]; then
+	    d1=$(echo 0123 | cut -c$((RANDOM%4+1)))
+        if [ $d1 -ne 3 ]; then
+	        d2=$(echo 123456789 | cut -c$((RANDOM%9+1)))
+        else
+            d2=0
+        fi
+    fi
+	y1=$(echo 0123456789 | cut -c$((RANDOM%10+1)))
+	y2=$(echo 0123456789 | cut -c$((RANDOM%10+1)))
+	echo $d1$d2/$m1$m2/$y1$y2
+done

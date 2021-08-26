@@ -1,0 +1,22 @@
+#!/bin/bash
+# validate a Canadian postal code
+if (( $# == 1 ))
+then
+	pc="$1"
+else
+	printf "Please enter a PC on the command line\n"
+    echo 'as "LDL DLD"'
+	exit 1
+fi
+# Postal codes use 20 uppercase letters of the English alphabet; 
+# they do not include the letters D, F, I, O, Q or U. i
+# The first position also does not make use of the letters W or Z.
+re='[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTV] *[0-9][ABCEGHJKLMNPRSTV][0-9]'
+result=$(echo "$pc" | grep "$re")
+
+if [ "$result" != "" ]
+then
+	printf "%s is valid\n" "$pc"
+else
+	printf "%s is NOT valid\n" "$pc"
+fi

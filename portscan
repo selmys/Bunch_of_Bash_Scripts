@@ -1,0 +1,68 @@
+#!/bin/bash
+# Written by John Selmys - February 2012
+# Seneca College, Toronto
+#
+# BASH script for scanning tcp ports to see which are open
+#
+# Note: This script takes one or two parameters
+#	    port(s):  which port or ports to scan
+#                     may be one port or a range, eg 100-200
+#                     default is 1-1023; all the secure ports
+#           host: the host IP address or FQDN, no default
+#
+# Usage: portscan [port|range] host
+#
+case $# in
+	1) ports='1-1023'
+	   host=$1 ;;
+	2) ports=$1
+	   host=$2 ;;
+	*) echo 'Usage: portscan [port|range] host'
+	   exit 1 ;;
+esac
+# check port range
+if [ "$(echo $ports | grep '^[1-9][0-9]*-[1-9][0-9]*$')" != "" ]; then
+	firstport=$(echo $ports | cut -d- -f1)
+	lastport=$(echo $ports | cut -d- -f2)
+elif [ "$(echo $ports | grep '^[1-9][0-9]*$')" != "" ]; then
+	firstport=$ports
+	lastport=$ports
+else
+	echo "$ports is an invalid port(s) value"
+	exit 2
+fi
+# check firstport > lastport
+if [ $firstport -gt $lastport ]; then
+	echo $firstport is larger than $lastport
+	exit 3
+fi
+# check host value
+regex='^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$'
+if [ "$(echo $host | grep '[A-Za-z]')" != "" ]; then
+	if [[ "$(host $host)" =~ "not found" ]]; then
+		echo host $host not found
+		exit 4
+	fi
+elif [[ ! $host =~ $regex ]]; then
+	echo $host is an invalid host address
+	exit 5
+fi
+# check if host is reachable using ping
+if [[ "$(ping -c 1 -W 2 -n $host)" =~ "0 received" ]]; then
+	echo $host does not respond to ping 
+fi
+# start the scan	 
+echo -n "Scanning "
+for p in $(seq $firstport $lastport)
+do
+	echo -n .
+  	x=$((echo >/dev/tcp/$host/$p) >/dev/null 2>&1 && echo "$p open")
+  	if [ "$x" != "" ]; then  
+		y="${y}
+$x"
+  	fi
+done
+# show results of scan
+echo -e "\n$y\n"
+exit 0
+

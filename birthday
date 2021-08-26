@@ -1,0 +1,4 @@
+#!/bin/bash
+#Compute person's birth day of week
+read -p "Please enter your birthday (yyyy mm dd): " year month day
+echo You were born on a $(date -d "$year-$month-$day" +%A)

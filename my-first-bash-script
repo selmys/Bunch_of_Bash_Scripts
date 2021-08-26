@@ -1,0 +1,5 @@
+#!/bin/bash
+# BASH scripts can use any commands
+date
+cal
+ls

@@ -1,0 +1,16 @@
+#!/bin/bash
+# Check age compatibility for marriage
+echo -n "Enter age of groom: "
+read groom
+
+read -p "Enter age of bride: " bride
+result=$((groom/2 + 7))
+
+#if [ $result -eq $bride ] 
+if (( result == bride ))
+then
+	echo "Ok to get married"
+else
+	echo "Sorry, you cannot get married"
+	echo because your bride should be $result years old
+fi

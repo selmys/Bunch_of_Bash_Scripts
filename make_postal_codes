@@ -1,0 +1,31 @@
+#!/bin/bash
+for i in {1..1000}
+do
+	l1=$(echo abceghjklmnprstvxy | cut -c$((RANDOM%18+1)))
+	l2=$(echo abceghjklmnprstvwxyz | cut -c$((RANDOM%20+1)))
+	l3=$(echo abceghjklmnprstvwxyz | cut -c$((RANDOM%20+1)))
+	n1=$(echo 0123456789 | cut -c$((RANDOM%10+1)))
+	n2=$(echo 0123456789 | cut -c$((RANDOM%10+1)))
+	n3=$(echo 0123456789 | cut -c$((RANDOM%10+1)))
+	echo -n "$l1$n1$l2 $n2$l3$n3 " | tr a-z A-Z
+    case $l1 in
+        a) echo Newfoundland and Labrador;;
+        b) echo Nova Scotia ;;
+        c) echo Prince Edward Island ;;
+        e) echo New Brunswick ;;
+        g) echo Quebec ;;
+        h) echo Quebec ;;
+        j) echo Quebec ;;
+        k) echo Ontario ;;
+        l) echo Ontario ;;
+        m) echo Ontario ;;
+        n) echo Ontario ;;
+        p) echo Ontario ;;
+        r) echo Manitoba ;;
+        s) echo Saskatchwan ;;
+        t) echo Alberta ;;
+        v) echo British Columbia ;;
+        x) echo Northwest Territories and Nunavut ;;
+        y) echo Yukon ;;
+    esac
+done

@@ -1,0 +1,21 @@
+#!/bin/bash
+# demonstrate BASH special parameters
+echo my process id is $$
+echo the number of command line parameters is $#
+echo parameters using '*' are "$*"
+echo parameters using '@' are "$@"
+echo the name of my script is $0
+echo the 4th parameter is $4
+i=1
+for p in "$@"
+do
+	echo parameter $i is $p
+	((i++))
+done
+i=1
+for p in "$*"
+do
+	echo parameter $i is $p
+	((i++))
+done
+exit 23

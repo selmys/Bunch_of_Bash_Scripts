@@ -1,0 +1,13 @@
+#!/bin/bash
+# check if a sentence is a palindrome
+read -p "enter a sentence: " sentence
+# translate all to lowercase
+lower=$(echo "$sentence" | tr A-Z a-z)
+# remove all non-letters
+letters=$(echo "$lower" | sed 's/[^a-z]//g')
+back=$(echo $letters | rev)
+if [ "$letters" == "$back" ]; then
+	echo \"$sentence\" is a palindrome
+else
+	echo \"$sentence\" is not a palindrome
+fi

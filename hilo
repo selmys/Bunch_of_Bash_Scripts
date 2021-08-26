@@ -1,0 +1,36 @@
+#!/bin/bash
+x=$((RANDOM%100+1))
+lo=1
+hi=100
+read -p "Enter your guess from $lo to $hi: " guess
+((tries++))
+if [[ ! $guess =~ ^([1-9]|[1-9][0-9]|100)$ ]]
+then
+	echo Error! $guess must be a number between $lo and $hi
+	exit 2
+fi
+while (( guess != x ))
+do
+	if (( guess > x )) 
+	then
+		echo Too high
+		hi=$guess
+	else
+		echo Too low
+		lo=$guess
+	fi
+	read -p "Enter another guess from $lo to $hi: " guess
+	((tries++))
+	if [[ ! $guess =~ ^([1-9]|[1-9][0-9]|100)$ ]] 
+	then
+		echo Error! $guess must be a number between $lo and $hi
+		exit 2
+	else
+		if ((guess < lo || guess > hi))
+		then
+			echo Not too smart eh?
+			exit 44
+		fi
+	fi
+done
+echo Great! You guessed the number in $tries tries

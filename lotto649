@@ -1,0 +1,16 @@
+#!/bin/bash
+# Generate one lotto 6/46 ticket
+for i in {1..49}
+do
+	n[$i]=$i
+done
+m=49
+for j in {1..6}
+do
+	x=$((RANDOM%m+1))
+	d[$j]=${n[$x]}
+	n[$x]=${n[$m]}
+	((m--))
+done
+echo ${d[*]} | tr ' ' '\n' | sort -n | tr '\n' ' '
+echo

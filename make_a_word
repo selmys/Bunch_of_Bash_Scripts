@@ -1,0 +1,26 @@
+#!/bin/bash
+# Make a new word
+len=$1
+if [ "$len" == "" ]
+then
+	read -p "Length of word? " len
+fi
+v=aeiouyaeiouyaeiouyaeiouy
+c=bcdfghjklmnpqrstvwxzbcdfghjklmnpqrstvwxz
+nv=$((len/3))
+nc=$((len-nv))
+echo sleeping
+for ((i=0;i<nv;i++))
+do
+	v1[i]=$(echo $v | cut -c$((RANDOM%24+1)))
+	sleep 1
+	echo '.'
+done
+for ((i=0;i<nc;i++))
+do
+	c1[i]=$(echo $c | cut -c$((RANDOM%40+1)))
+	sleep 1
+	echo '.'
+done
+echo ${v1[*]} ${c1[*]} | tr ' ' '\n' | sort -R | tr -d '\n'
+echo
