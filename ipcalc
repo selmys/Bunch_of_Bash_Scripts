@@ -1,0 +1,61 @@
+#!/bin/bash
+# Written by John Selmys - June 2013
+# Seneca College, Toronto
+#
+# BASH script that converts an IP address into a
+# 4 byte integer and then checks if it is a 
+# private address or not.
+#
+# Note 1: 32 bit integers range from 0 to 4294967295 (2^32-1) 
+# Note 2: Here is the list of private IP addresses
+#		10.0.0.0 - 10.255.255.255
+#		172.16.0.0 - 172.31.255.255
+#		192.168.0.0 - 192.168.255.255
+#
+# Usage: ipcalc IPAddress
+#
+
+function ip2int() {
+	a=$(echo $1 | cut -d. -f1)
+	b=$(echo $1 | cut -d. -f2)
+	c=$(echo $1 | cut -d. -f3)
+	d=$(echo $1 | cut -d. -f4)
+	echo $((a*256**3 + b*256**2 + c*256**1 + d*256*0))
+}
+
+# check if we have one and only one parameter
+if [ $# != 1 ]; then
+	echo Usage: ipcalc IPAddress
+	exit 1
+fi
+
+# check if the parameter is an IP address
+isip=$(echo $1 | egrep '^[0-9]+(\.[0-9]+){3}$')
+if [ "$isip" == "" ]; then
+	echo $1 is not an IP address
+	exit 2
+fi
+
+# convert IP address to integer
+intip=$(ip2int $1)
+
+# get integer values for private IP addresses
+r10a=$(ip2int 10.0.0.0)
+r10b=$(ip2int 10.255.255.255)
+r172a=$(ip2int 172.16.0.0)
+r172b=$(ip2int 172.31.255.255)
+r192a=$(ip2int 192.168.0.0)
+r192b=$(ip2int 192.168.255.255)
+
+# check if this is a private IP address
+if [ $intip -ge $r10a -a $intip -le $r10b ]; then
+	echo $1 appears to be a private IP belonging to the 10 subnet
+elif [ $intip -ge $r172a -a $intip -le $r172b ]; then
+	echo $1 appears to be a private IP belonging to the 172 subnet
+elif [ $intip -ge $r192a -a $intip -le $r192b ]; then
+	echo $1 appears to be a private IP belonging to the 192 subnet
+else
+	echo $1 does not appear to be a private IP address
+fi
+	
+exit 0
