@@ -1,0 +1,21 @@
+#!/bin/bash
+# get a key from the keyboard 
+# without waiting for ENTER
+
+# save terminal settings
+oldsettings=$(stty -g)
+# disable canonical mode
+stty -icanon min 1 time 0
+# set key to nothing
+key=
+# loop until key is q
+while [ "$key" != "q" ]
+do
+   echo -n "Hit any key: "
+# read 1 key using head command
+   key=$(head -c1)
+# show what key was hit
+   echo -e "\nYou hit the \"$key\" key"
+done
+# restore original terminal settings
+stty $oldsettings
