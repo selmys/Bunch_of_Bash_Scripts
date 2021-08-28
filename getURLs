@@ -1,0 +1,6 @@
+#!/bin/bash
+# extract the short (< 80 char) URLs from a web page
+wget --quiet -O - "$1" | sed -n /href/p | 
+    sed -n 's/.*href="\(.*\)".*/\1/p' | 
+    grep '^http' | 
+    awk 'length($0) < 80' 
