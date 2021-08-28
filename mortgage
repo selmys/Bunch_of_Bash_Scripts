@@ -1,0 +1,37 @@
+#!/bin/bash
+# Written by John Selmys - January 2012
+# Seneca College, Toronto
+#
+# BASH script to compute the monthly payment of a mortgage
+#
+#   Input 
+#       interest rate (i) percent
+#		mortgage amount (a) dollars
+#		amortization period (y) years
+#	Output
+#		monthly payment (p) dollars
+#
+# 	Formula for Canadian Mortgages
+# 		p=a*(((1+i/200)^(1/6)-1))/(1-((1+i/200)^(1/6))^-(y*12))
+#
+# Usage: mortgage rate amount period 
+#
+if [ $# -ne 3 ]
+	then
+		echo -e "\nUsage: mortgage rate amount period\n"
+		exit 1
+	fi
+# Get command line parameters
+i=$1; a=$2; y=$3
+
+# Compute the monthly payment
+x=$(echo "scale=20;1+$i/200" | bc)
+z=$(echo "scale=20;1/6" | bc)
+x2z=$(echo "scale=20;e($z*l($x))" | bc -l)
+y12=$(echo "scale=20;-$y*12" | bc)
+x2z2y12=$(echo "scale=20;e($y12*l($x2z))" | bc -l)
+p=$(echo "scale=3;$a*(($x2z-1))/(1-$x2z2y12)" | bc)
+
+# Print the monthly payment
+echo $p
+exit 0
