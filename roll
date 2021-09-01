@@ -1,0 +1,16 @@
+#!/bin/bash
+# roll a number of dice
+if [ $# -eq 0 ]; then
+    # roll 1 dice
+    ((d = $RANDOM % 6 + 1))
+    echo $d
+else
+    # roll $1 dice
+    for ((i=0;i<$1;i++))
+    do
+        ((d = $RANDOM % 6 + 1))
+        echo -n $d" "
+    done
+    echo
+fi
+
