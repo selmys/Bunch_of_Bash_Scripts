@@ -1,0 +1,21 @@
+#!/bin/bash
+# Written by John Selmys 
+# Seneca College, Toronto
+#
+# try running this in the background
+# ./myclock &
+# the time should appear in the top right-hand 
+# corner of your terminal window
+# you'll have to kill the process manually to
+# stop the clock
+
+while true 
+do   
+	columns=$(tput cols)
+	tput sc
+	t=$(date +%T)
+   	tput cup 0 $((columns - 8))
+ 	echo -n $t
+	tput rc
+	sleep 1
+done
