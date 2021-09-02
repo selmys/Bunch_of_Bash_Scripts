@@ -1,6 +1,7 @@
 #!/bin/bash
 # get a key from the keyboard 
 # without waiting for ENTER
+# hit 'q' to exit
 
 # save terminal settings
 oldsettings=$(stty -g)
