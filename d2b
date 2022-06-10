@@ -1,0 +1,14 @@
+#!/bin/bash
+# Convert a decimal number into binary
+read -p "Enter a decimal number: " n
+while [ $n -gt 0 ] 
+do
+    if ((n%2))
+    then
+        echo -n 1
+    else
+        echo -n 0
+    fi
+    ((n=n/2))
+done | rev
+echo
