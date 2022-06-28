@@ -1,0 +1,22 @@
+#!/bin/bash
+# Script to list student login times on the
+#    six nodes of Matrix at Seneca College
+# Works best if you are using public/private
+#    keys so no password is necessary for ssh 
+# This is a quick hack that could use improvements
+#    so feel free ..... John Selmys - 13/06/22 
+#
+# Changed to use full usernames instead of just the first 8 characters
+# Changed to use ALL wtmp files since it seems Matrix holds the previous
+#   months data as well as the current month ..... John Selmys - 26/06/22
+if [ $# -ne 1 ];then
+    echo Usage: chk_login username
+else
+    username=$1
+    for node in {1..6}
+    do
+        ssh mtrx-node0${node}pd cat /var/log/wtmp* > /tmp/mywtmp 2>/dev/null; last -w -f /tmp/mywtmp $username 2>/dev/null
+    done | grep "^$1 " | 
+        awk '{if(NF==10) {$2=$3=""} else {$2=""} print}' | 
+        sort -k3M -k4n | sed 's/  */ /'
+fi
