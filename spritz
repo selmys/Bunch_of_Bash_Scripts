@@ -1,0 +1,118 @@
+#!/bin/bash
+# Spritz reader by
+# John Selmys - Jan, 2014
+#
+# Usage: ./spritz file [words/min]
+# default words/min is 120
+#
+clear
+function changeSpeed() {
+	read -t 0.0001 -N 1 char
+	if [ "$char" == k ]
+	then
+		wpm=$((wpm+10))
+		if [ $wpm -gt 1000 ]
+		then
+			wpm=1000
+		fi
+	fi
+	if [ "$char" == j ]
+	then
+		wpm=$((wpm-10))
+		if [ $wpm -lt 100 ]
+		then
+			wpm=100
+		fi
+	fi
+	delay=$(echo "scale=3;60/$wpm" | bc)
+}
+
+function gotINT() {
+	etime=$(date +%s)
+	tput reset
+	echo "You read $total words in $((etime-stime)) seconds"
+	tput cnorm
+	stty echo
+	exit 0
+}
+
+function vowel() {
+	local word=$1
+	local pos=0
+	local next=0
+	local letter=""
+	for i in $(seq ${#word})
+	do
+		letter=$(echo $word | cut -c$i)
+		if [[ $letter =~ [aeiouyAEIOUY] ]]
+		then
+			if [ $pos -eq 0 ]
+			then
+				pos=$i
+			else
+				next=$i
+				break
+			fi
+		fi
+	done
+	if [ $next -ne 0 ]
+	then
+		pos=$next
+	fi
+	if [ $next -eq 0 -a $pos -eq 0 ]
+	then
+		pos=1
+	fi
+	echo $pos
+}
+
+function box() {
+	tput cup 9 5
+	echo "────────┬───────────────"
+	tput cup 11 5
+	echo "────────┴───────────────"
+}
+
+if [ "$2" == "" ]
+then
+	wpm=120
+	delay=0.5
+else
+	wpm=$2
+	delay=$(echo "scale=3;60/$wpm" | bc)
+fi
+tput civis
+box
+
+trap gotINT SIGINT
+stty -echo
+stime=$(date +%s)
+for w in $(cat $1)
+do
+	total=$((total+1))
+	tput cup 10 8
+	echo "                      "
+	p=$(vowel $w)
+	letter=$(echo $w | cut -c$p)
+	tput cup 10 $((14-p))
+	first=""
+	if [ $p -gt 1 ]
+	then
+		n=$((p-1))
+		first=$(echo $w | cut -c1-$n)
+	fi
+	n=$((p+1))
+	second=$(echo $w | cut -c$n-)
+	printf "%s\e[0;31m%s\e[0m%s" "$first" "$letter" "$second"
+	tput cup 12 20
+	changeSpeed
+	echo $wpm wpm
+	sleep $delay
+done
+
+tput reset
+etime=$(date +%s)
+echo "You read $total words in $((etime-stime)) seconds"
+tput cnorm
+stty echo
+exit 0
