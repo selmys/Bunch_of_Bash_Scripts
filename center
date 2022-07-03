@@ -1,0 +1,33 @@
+#!/bin/bash
+# As you resize the screen, a small
+# heart will stay centered
+# Hit CTRL-C to exit
+# John Selmys - 2014
+#
+function TheEnd {
+    #restore cursor
+    tput cnorm
+    clear
+    exit
+}
+trap TheEnd SIGINT
+
+r=0
+c=0
+# hide the cursor
+tput civis
+while true
+do
+	nr=$(tput lines)
+	nc=$(tput cols)
+	if [ $nc -ne $c -o $nr -ne $r ]; then
+		clear
+		cr=$((nr/2))
+		cc=$((nc/2))
+		tput cup $cr $cc; 
+		echo -ne '\u2665'
+		r=$(tput lines)
+		c=$(tput cols)
+	fi
+done
+
