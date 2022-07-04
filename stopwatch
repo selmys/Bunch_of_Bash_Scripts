@@ -6,7 +6,7 @@
 # BASH script that works like a stopwatch
 #      ctrl-S will stop the clock
 #      ctrl-Q will start the clock 
-#      ctrl-Z will reset the clock
+#      ctrl-\ will reset the clock
 #      ctrl-C will quit
 #
 # Usage: stopwatch
