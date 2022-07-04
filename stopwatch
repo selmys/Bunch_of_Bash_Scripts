@@ -1,0 +1,52 @@
+#!/bin/bash
+# OPS435 - lab08
+# Written by John Selmys - March 2012
+# Seneca College, Toronto
+#
+# BASH script that works like a stopwatch
+#      ctrl-S will stop the clock
+#      ctrl-Q will start the clock 
+#      ctrl-Z will reset the clock
+#      ctrl-C will quit
+#
+# Usage: stopwatch
+#
+hrs=0
+min=0
+sec=0
+started=1
+
+function reset() {
+    hrs=0
+    min=0
+    sec=0
+}
+trap reset SIGQUIT
+
+function finish() {
+    tput cnorm
+    clear
+    exit
+}
+trap finish SIGINT
+
+tput civis
+while true 
+do   
+    tput clear
+    columns=$(tput cols)
+    rows=$(tput lines)
+    tput cup $((rows/2)) $((columns/2))
+    printf "%02d:%02d:%02d" $hrs $min $sec
+    ((sec = sec + 1))
+    if [ $sec -eq 60 ]; then
+    ((min = min + 1))
+    sec=0
+    fi
+    if [ $min -eq 60 ]; then
+    ((hrs = hrs + 1))
+    min=0
+    fi
+	sleep 1
+done
+exit 0
