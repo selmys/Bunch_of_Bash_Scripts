@@ -1,0 +1,33 @@
+#!/bin/bash
+# Print a histogram - frequency of letters in a file
+# Usage: ./frequency filename
+# Try this: ./frequency frequency
+# by John Selmys 2007
+#
+let count=0
+declare -A list
+for i in {a..z} 
+do
+    list[$i]=0
+done
+# count the letters
+while read -N1 ch 
+do
+    y=$(echo -n "$ch" | grep -i '[a-z]')
+    if [ "$y" != "" ];then
+        x=${list[$ch]}
+        let x=x+1
+        list[$ch]=$x
+    fi
+done < $1 
+# print the histogram of letters
+for i in {a..z} 
+do
+    echo -n $i" "
+    for j in $(seq ${list[$i]})
+    do
+        echo -n '*'
+    done
+    echo
+done
+
