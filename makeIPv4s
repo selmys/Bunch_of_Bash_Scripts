@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# Generate a bunch of IPv4 addresses
+# John Selmys
+#
+if [ $# != 1 ];then
+    echo Usage: ./makeIPv4s n
+    echo where n = number of IPv4 addresses you want
+    exit
+fi
+n=$1
+for ((i=0;i<n;i++))
+do
+    p1=$((RANDOM%256))
+    p2=$((RANDOM%256))
+    p3=$((RANDOM%256))
+    p4=$((RANDOM%256))
+    echo $p1.$p1.$p3.$p4
+done
