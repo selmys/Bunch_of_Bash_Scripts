@@ -1,4 +1,6 @@
 #!/bin/bash
+# John Selmys - July 22, 2022
+#
 if [ $# != 1 ];then
     echo Usage: ./sinewave n
     echo where n = number of cycles
