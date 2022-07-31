@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Given a list (file) of integers,
+# find a pair whose sum is X
+# This is also known as the "two sum" problem
+#
+# John Selmys - Seneca College
+#
+if [ $# -ne 2 ];then
+    echo Usage: ./twoSum file X
+    echo where file contains a list of integers
+    echo one per line and
+    echo X is the sum  we are looking for
+    exit
+fi
+X=$2
+N=($(cat $1)) # put file into array N
+echo ${N[@]}
+for((i=0;i<${#N[@]};i++)); do
+    for((j=i+1;j<${#N[@]};j++)); do
+        sum=$((N[i]+N[j]))
+        if [ $sum -eq $X ]; then
+            echo Found ${N[$i]}+${N[$j]} equals $X
+            exit
+        fi
+    done
+done
+echo No pair equals $X
