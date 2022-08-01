@@ -1,0 +1,12 @@
+#!/bin/bash
+#Convert integer to IPV4 address
+#John Selmys - Seneca College
+
+function int2ip {
+	((d=$1%256))
+	((c=$1/(1<<8)%256))
+	((b=$1/(1<<16)%256))
+	((a=$1/(1<<24)%256))
+	echo $a.$b.$c.$d
+}
+int2ip $1
