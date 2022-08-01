@@ -1,0 +1,13 @@
+#!/bin/bash
+#Convert IPV4 address to integer
+# John Selmys - Seneca College
+#
+function ip2int {
+	a=$(echo $1 | cut -d. -f1)
+	b=$(echo $1 | cut -d. -f2)
+	c=$(echo $1 | cut -d. -f3)
+	d=$(echo $1 | cut -d. -f4)
+	i=$(($a<<24 | $b<<16 | $c<<8 | $d))
+	echo $i
+}
+ip2int $1
