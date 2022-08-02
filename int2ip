@@ -9,4 +9,9 @@ function int2ip {
 	((a=$1/(1<<24)%256))
 	echo $a.$b.$c.$d
 }
+if [ $# -ne 1 ];then
+    echo Usage: ./int2ip integer
+    echo where integer is a 32 bit integer
+    exit
+fi
 int2ip $1
