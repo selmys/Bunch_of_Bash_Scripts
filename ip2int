@@ -10,4 +10,9 @@ function ip2int {
 	i=$(($a<<24 | $b<<16 | $c<<8 | $d))
 	echo $i
 }
+if [ $# -ne 1 ];then
+    echo Usage: ./ip2int address
+    echo where address is an IPv4 address
+    exit
+fi
 ip2int $1
