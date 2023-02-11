@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+# 
+# John Selmys - January 2023
+#
+Usage () {
+    echo 'Usage: drawPyramid rows
+    where 1 <= rows <= 26
+    For example, when rows = 3 the pyramid looks like:
+   a
+  aba
+ abcba'
+}
+if [ $# -ne 1 ];then
+    Usage    
+    exit
+elif [[ ! $1 =~ ^10$|^[1-9]$|^2[0-6]$ ]];then
+    Usage
+    exit
+else
+    rows=$1
+fi
+
+a=abcdefghijklmnopqrstuvwxyz
+m=a
+for i in $(seq $rows)
+do
+    if [ $i -gt 1 ];then
+        l=${a:0:((i-1))}
+  #      echo l is $l
+        m=${a:((i-1)):1}
+   #     echo m is $m
+        r=$(echo $l | rev)
+    #    echo r is $r
+    #    echo $l$m$r
+    fi
+    for ((s=0;s<rows-i;s++))
+    do
+        echo -n ' '
+    done
+    echo $l$m$r
+done
