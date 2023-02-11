@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+# 
+# John Selmys - February 2023
+#
+Usage () {
+    echo 'Usage: snakeToCamel "name" 
+    convert a snake case string to a camel case string
+   such that the snake character '_' is removed and the following text is joined
+   with each subsequent word being initially capitalized.
+   (see examples below):
+
+   snake case:            camel case:
+   speed_of_light         speedOfLight
+   infix_to_postfix       infixToPostfix
+   area_in_meters         areaInMeters
+'
+}
+if [ $# -ne 1 ];then
+    Usage
+    exit
+fi
+s=$(echo "$1" | tr '_' '\n')
+for word in $(echo $s)
+do
+    if [ "$i" == "" ];then
+        line=$word
+        i=next
+    else
+        line=$line${word^}
+    fi
+done
+echo $line
