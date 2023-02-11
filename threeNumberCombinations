@@ -1,0 +1,43 @@
+#!/usr/bin/bash
+# 
+# John Selmys - January 2023
+#
+Usage () {
+    echo 'Usage: threeNumberCombinations number
+    where 1 <= number <= 9
+    displays a list of all 3 digit combinations
+    from 1 to number in numerical order.
+    For example, if number == "2", then this would display
+111
+112
+121
+122
+211
+212
+221
+222'
+}
+if [ $# -ne 1 ];then
+    Usage    
+    exit
+elif [[ ! $1 =~ ^[1-9]$ ]];then
+    Usage
+    exit
+else
+    num=$1
+fi
+((count=num**3))
+l=1;m=1;r=1
+for((i=0;i<count;i++))
+do
+    echo $l$m$r
+    if [ $r -lt $num ];then
+        ((r++))
+    elif [ $m -lt $num ];then
+        r=1
+        ((m++))
+    elif [ $l -lt $num ];then
+        r=1;m=1
+        ((l++))
+    fi
+done
