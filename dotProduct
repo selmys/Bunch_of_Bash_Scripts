@@ -1,0 +1,45 @@
+#!/usr/bin/bash
+# 
+# John Selmys - February 2023
+#
+Usage () {
+    echo 'Usage: dotProduct "n1 n2 n3 ..." "m1 m2 m3 ..." 
+    where n amd m are two vectors of same size
+
+An example of a dot product of 2 lists [1, 2, 3] and [6, 7, 8] would be:
+[1, 2, 3]
+[6, 7, 8]
+
+1 * 6 +
+2 * 7 +
+3 * 8 =
+44    
+'
+}
+if [ $# -ne 2 ];then
+    Usage    
+    exit
+elif [[ ! "$1" =~ ^[0-9]( [0-9])*$ ]];then
+    Usage
+    exit
+elif [[ ! "$2" =~ ^[0-9]( [0-9])*$ ]];then
+    Usage
+    exit
+else
+    n=$(echo "$1" | tr ' ' '\n' | wc -l)
+    m=$(echo "$2" | tr ' ' '\n' | wc -l)
+    if [ $n -ne $m ];then
+        Usage
+        exit
+    fi
+fi
+echo $1 '      ' $n
+echo $2 '      ' $m
+k=$n
+for ((i=1;i<=k;i++))
+do
+    m=$(echo "$1" | tr ' ' '\n' | head -$i | tail -1)
+    n=$(echo "$2" | tr ' ' '\n' | head -$i | tail -1)
+    ((t = t + m*n))
+done
+echo $t
