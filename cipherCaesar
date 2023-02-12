@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+# 
+# John Selmys - January 2023
+#
+Usage () {
+    echo 'Usage: cipherCaesar string number
+    where number >= 1 and string is a string
+    for example:
+        cipherCaesar "abc-xyz" 3
+        would display:
+            def-abc'
+}
+if [ $# -ne 2 ];then
+    Usage    
+    exit
+fi
+if [[ ! "$2" =~ ^[1-9][0-9]*$ ]];then
+    Usage
+    exit
+fi
+string="$1"
+number=$2
+lc=abcdefghijklmnopqrstuvwxyz
+uc=${lc^^}
+echo "$string" | sed "y/${lc}/${lc:$number}${lc::$number}/" |
+    sed "y/${uc}/${uc:$number}${uc::$number}/"
