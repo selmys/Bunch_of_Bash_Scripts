@@ -1,0 +1,36 @@
+#!/usr/bin/bash
+# 
+# John Selmys - January 2023
+#
+Usage () {
+    echo 'Usage: drawPascal rows
+    where rows >= 1 
+    For example, when rows = 4 the triangle looks like:
+    1
+    1 1
+    1 2 1
+    1 3 3 1'
+}
+if [ $# -ne 1 ];then
+    Usage    
+    exit
+elif [[ ! $1 =~ ^[1-9][0-9]*$ ]];then
+    Usage
+    exit
+else
+    rows=$1
+fi
+
+for i in $(seq 0 $((rows-1)))
+do
+    for j in $(seq 0 $i)
+    do
+        if [ $i -eq 0 -o $j -eq 0 ];then
+            k=1
+        else
+            k=$((k*(i-j+1)/j))
+        fi
+        echo -n $k" "
+    done
+    echo
+done
