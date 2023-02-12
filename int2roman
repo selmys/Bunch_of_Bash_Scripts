@@ -1,0 +1,80 @@
+#!/usr/bin/bash
+# 
+# John Selmys - February 2023
+#
+Usage () {
+    echo 'Usage: int2roman number 
+    where 1 <= number <= 3999
+    
+    accepts an integer number from 1 to 3999 and returns
+the value as a Roman Numeral as a string'
+}
+if [ $# -ne 1 ];then
+    Usage    
+    exit
+elif [[ ! $1 =~ ^[1-9][0-9]*$ ]];then
+    Usage
+    exit
+else
+    n=$1
+    if [ $n -gt 3999 ];then
+        Usage
+        exit
+    fi
+fi
+((x = n/1000))
+((n = n - x*1000))
+while [ $x -gt 0 ];do
+    echo -n M
+    ((x=x-1))
+done
+((x = n/100))
+while [ $n -ge 100 ];do
+    if [ $x -eq 9 ];then
+        echo -n CM
+        ((n=n-900))
+    elif [ $x -ge 5 ];then
+        echo -n D
+        ((n=n-500))
+        ((x = n//100))
+    elif [ $x -eq 4 ];then
+        echo -n CD
+        ((n=n-400))
+    else
+        echo -n C
+        ((n=n-100))
+    fi
+done
+((x = n/10))
+while [ $n -ge 10 ];do 
+    if [ $x -eq 9 ];then
+        echo -n XC
+        ((n=n-90))
+    elif [ $x -ge 5 ];then
+        echo -n L
+        ((n=n-50))
+        ((x = n/10))
+    elif [ $x -eq 4 ];then
+        echo -n XL
+        ((n=n-40))
+    else
+        echo -n X
+        ((n=n-10))
+    fi
+done
+while [ $n -gt 0 ];do
+    if [ $n -eq 9 ];then
+        echo -n IX
+        ((n=n-9))
+    elif [ $n -ge 5 ];then
+        echo -n V
+        ((n=n-5))
+    elif [ $n -eq 4 ];then
+        echo -n IV
+        ((n=n-4))
+    else
+        echo -n I
+        ((n=n-1))
+    fi
+done
+echo
