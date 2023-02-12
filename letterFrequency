@@ -1,0 +1,45 @@
+#!/usr/bin/bash
+# 
+# John Selmys - January 2023
+#
+Usage () {
+    echo 'Usage: letterFrequency string 
+    for example:
+        letterFrequency "This is a Python test 123!"
+        would display:
+        a=1 *
+        e=1 *
+        h=2 **
+        i=2 **
+        n=1 *
+        o=1 *
+        p=1 *
+        s=3 ***
+        t=4 ****
+        y=1 *'
+}
+if [ $# -ne 1 ];then
+    Usage    
+    exit
+fi
+declare -A letters
+userString="$1"
+for l in $(seq 0 ${#userString})
+do
+    c=${userString:$l:1}
+    c=$(echo ${c,})
+    if [[ $c =~ ^[a-z]$ ]];then
+        letters[$c]=$((letters[$c]+1))
+    fi
+done
+for i in {a..z}
+do
+    if [ "${letters[$i]}" != "" ];then
+        echo -ne ${i}=${letters[$i]}"\t"
+        for j in $(seq ${letters[$i]})
+        do
+            echo -n '*'
+        done
+        echo
+    fi
+done
