@@ -1,0 +1,26 @@
+#!/bin/bash
+# John Selmys - June 20, 2023
+# Colorful Christmas tree
+#
+echo
+p=12
+for line in $(seq 1 2 19) 
+do
+    for i in $(seq $p)
+    do
+        echo -n ' '
+    done
+    ((p--))
+    for column in $(seq $line)
+    do
+        x=$((RANDOM%8+30))
+        #sleep 1
+        echo -en '\e[1;'$x'm*'
+    done
+    echo
+done
+echo '            *'
+echo '            *'
+echo '            *'
+echo
+
