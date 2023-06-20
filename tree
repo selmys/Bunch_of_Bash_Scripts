@@ -1,0 +1,23 @@
+#!/bin/bash
+# John Selmys - June 21, 2023
+# Colorful Christmas tree
+#
+p=12
+for line in $(seq 1 2 19) 
+do
+    for i in $(seq $p)
+    do
+        echo -n ' '
+    done
+    ((p--))
+    for column in $(seq $line)
+    do
+        echo -n '*'
+    done
+    echo
+done
+echo '            *'
+echo '            *'
+echo '            *'
+echo
+
