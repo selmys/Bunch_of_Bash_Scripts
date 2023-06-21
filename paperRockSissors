@@ -1,0 +1,28 @@
+#!/bin/bash
+# John Selmys - June 21, 2023
+# Paper Rock Sissors Game 
+#
+n=$((RANDOM % 3 + 1))
+myhand=$(echo 'PRS' | cut -c$n)
+read -p "I'm ready, enter <P,R,S> now: " hand
+case $myhand in
+    P) case $hand in 
+            P) echo 'me P, you P - Tie!' ;;
+            R) echo 'me P, you R - I win!' ;;
+            S) echo 'me P, you S - You win!' ;;
+       esac
+       ;; 
+    R) case $hand in
+            P) echo 'me R, you P - You win!' ;;
+            R) echo 'me R, you R - Tie!' ;;
+            S) echo 'me R, you S - I win!' ;;
+       esac
+       ;;
+    S) case $hand in
+            P) echo 'me S, you P - I win!' ;;
+            R) echo 'me S, you R - You Win!' ;;
+            S) echo 'me S, you S - Tie!' ;;
+       esac
+       ;;
+esac
+
