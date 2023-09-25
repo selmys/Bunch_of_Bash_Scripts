@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+# by John Selmys - Sept 2023
+if [ $# -eq 0 ]
+then
+    echo "Usage: ./exp2float e1 e2 ..."
+    echo "where e1, e2, ... are numbers using"
+    echo "scientific (engineering) notation"
+    echo "for example: 22.123e-2"
+    exit
+fi
+for n in $*
+do
+    res=$(echo $n | egrep '^(-[0-9]|[0-9])\.[0-9]+[eE][-+][0-9]+$')
+    if [ "$res" != "" ]
+    then
+        n=$(echo $n | tr 'E' 'e')
+        m=$(echo $n | cut -de -f1)
+        e=$(echo $n | cut -de -f2)
+        expsign=$(echo $e | cut -c1)
+        count=$(echo $e | cut -c2-)
+        p=$((10**count))
+        if [ $expsign == \- ]
+        then
+            r=$(echo "scale=5;$m / $p" | bc)
+        else
+            r=$(echo "scale=5;$m * $p" | bc)
+        fi
+        echo $n is $r
+    else
+        echo Invalid Input $n
+    fi
+done
