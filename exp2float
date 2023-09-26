@@ -18,12 +18,19 @@ do
         e=$(echo $n | cut -de -f2)
         expsign=$(echo $e | cut -c1)
         count=$(echo $e | cut -c2-)
+        # remove leading zero from exponent
+        res=$(echo $count | grep '^0')
+        if [ "$res" != "" ]
+        then
+            count=$(echo $count | cut -c2-)
+        fi
         p=$((10**count))
+        scale=$((count+3))
         if [ $expsign == \- ]
         then
-            r=$(echo "scale=5;$m / $p" | bc)
+            r=$(echo "scale=$scale;$m / $p" | bc)
         else
-            r=$(echo "scale=5;$m * $p" | bc)
+            r=$(echo "scale=$scale;$m * $p" | bc)
         fi
         echo $n is $r
     else
