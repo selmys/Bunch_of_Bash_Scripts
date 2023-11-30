@@ -1,11 +1,13 @@
 #!/usr/bin/bash
-# by John Selmys - Sept 2023
+# by John Selmys - Sept 2023 - Nov 2023
 if [ $# -eq 0 ]
 then
     echo "Usage: ./exp2float e1 e2 ..."
     echo "where e1, e2, ... are numbers using"
     echo "scientific (engineering) notation"
-    echo "for example: 22.123e-2"
+    echo "for example: 2.123e-2"
+    echo "NOTE: one digit before the decimal"
+    echo "      use 'e' or 'E'"
     exit
 fi
 for n in $*
@@ -25,14 +27,16 @@ do
             count=$(echo $count | cut -c2-)
         fi
         p=$((10**count))
-        scale=$((count+3))
+        scale=${#m}
         if [ $expsign == \- ]
         then
+            scale=$((scale+count-2))
             r=$(echo "scale=$scale;$m / $p" | bc)
         else
+            scale=$((scale-count-2))
             r=$(echo "scale=$scale;$m * $p" | bc)
         fi
-        echo $n is $r
+        printf '%.'$scale'f\n' $r
     else
         echo Invalid Input $n
     fi
