@@ -1,0 +1,15 @@
+#!/bin/bash
+# 
+# print pi to n number of digits
+# n defaults to 10 unless specified on command line
+# John Selmys - 2025
+#
+n=10
+if (( $# == 1 ))
+then
+	if [[ $1 =~ ^[0-9]*$ ]]
+	then
+		n=$1
+	fi
+fi
+echo "scale=$n;4*a(1)" | bc -l
