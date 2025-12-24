@@ -1,0 +1,16 @@
+#!/bin/bash
+# 
+# print single character bigrams from a line
+# of text and their frequency of occurance
+# John Selmys - 2025
+#
+echo "Enter a sentence:"
+read line
+l=$(echo ${#line})
+((l--))
+for((i=0;i<$l;i++)) 
+do 
+	echo -n ${line:$i:1} 
+	((j=i+1)) 
+	echo " "${line:$j:1} 
+done | sort | uniq -c
